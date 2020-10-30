@@ -937,7 +937,7 @@ ConfigSIGModelAppGet = Struct(
 ConfigSIGModelAppList = Struct(
     "status" / StatusCodeAdapter,
     Embedded(ConfigSIGModelAppGet),
-    "app key indices" / KeyIndices,
+    "app_key_indices" / KeyIndices,
 )
 
 ConfigVendorModelAppGet = Struct(
@@ -948,7 +948,7 @@ ConfigVendorModelAppGet = Struct(
 ConfigVendorModelAppList = Struct(
     "status" / StatusCodeAdapter,
     Embedded(ConfigVendorModelAppGet),
-    "app key indices" / KeyIndices,
+    "app_key_indices" / KeyIndices,
 )
 
 ConfigNodeReset = Struct()
