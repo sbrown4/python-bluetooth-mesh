@@ -681,6 +681,22 @@ class Application(
             app_key=app_key,
         )
 
+    async def get_app_keys(
+        self, net_key_index: int,
+    ) -> "AppKeyList":
+        """
+        Retrieves the application keys for a given net index.
+
+        :param net_key_index: Index of the network key
+        """
+        client = self.elements[0][ConfigClient]
+
+        return await client.get_app_keys(
+            self.addr,
+            net_index=self.primary_net_key[0],
+            net_key_index=net_key_index,
+        )
+
     async def bind_app_key(
         self, app_key_index: int, model: "Model"
     ) -> "ModelBindStatus":

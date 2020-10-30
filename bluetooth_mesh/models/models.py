@@ -94,6 +94,10 @@ AppKeyStatus = NamedTuple(
     "ApplicationKeyStatus", [("net_key_index", int), ("app_key_index", int),]
 )
 
+AppKeyList = NamedTuple(
+    "ApplicationKeyList", [("net_key_index", int), ("appkey_indices", Sequence[int]),]
+)
+
 NetKeyStatus = NamedTuple("NetworkKeyStatus", [("net_key_index", int),])
 
 ModelBindStatus = NamedTuple(
@@ -410,6 +414,38 @@ class ConfigClient(Model):
 
         return AppKeyStatus(
             status["params"]["net_key_index"], status["params"]["app_key_index"]
+        )
+
+    async def get_app_keys(
+        self,
+        destination: int,
+        net_index: int,
+        net_key_index: int,
+    ) -> AppKeyList:
+        status = self.expect_dev(
+            destination,
+            net_index=net_index,
+            opcode=ConfigOpcode.APPKEY_LIST,
+            params=dict(net_key_index=net_key_index,),
+        )
+
+        request = partial(
+            self.send_dev,
+            destination,
+            net_index=net_index,
+            opcode=ConfigOpcode.APPKEY_GET,
+            params=dict(
+                net_key_index=net_key_index,
+            ),
+        )
+
+        status = await self.query(request, status)
+
+        if status["params"]["status"] != StatusCode.SUCCESS:
+            raise ModelOperationError("Cannot get app keys", status)
+
+        return AppKeyList(
+            status["params"]["net_key_index"], status["params"]["app_key_indices"]
         )
 
     async def delete_app_key(
