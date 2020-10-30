@@ -265,6 +265,25 @@ class ConfigClient(Model):
             timeout=timeout or 2 * send_interval * len(nodes),
         )
 
+    async def set_default_ttl(
+        self,
+        default_ttl: int,
+        nodes: Sequence[int],
+        net_index: int,
+        send_interval: float = 0.1,
+        progress_callback: Optional[ProgressCallback] = None,
+        timeout: float = None,
+    ) -> Dict[int, Optional[Any]]:
+        return await self.get_param(
+            nodes,
+            net_index,
+            request=dict(opcode=ConfigOpcode.DEFAULT_TTL_SET, params=dict(TTL = default_ttl)),
+            status=dict(opcode=ConfigOpcode.DEFAULT_TTL_STATUS, params=dict()),
+            send_interval=send_interval,
+            progress_callback=progress_callback,
+            timeout=timeout or 4 * send_interval * len(nodes),
+        )
+
     async def get_relay(
         self,
         nodes: Sequence[int],
