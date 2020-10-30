@@ -463,8 +463,8 @@ class NodeInterface:
             element_path,
             destination,
             key_index,
+            {},
             data,
-            flags=MessageFlag.NO_REPLY_EXPECTED,
         )
 
     async def dev_key_send(
@@ -480,8 +480,8 @@ class NodeInterface:
             destination,
             remote,
             net_index,
+            {},
             data,
-            flags=MessageFlag.NO_REPLY_EXPECTED,
         )
 
     async def add_net_key(
