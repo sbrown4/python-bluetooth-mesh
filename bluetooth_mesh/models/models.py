@@ -869,18 +869,7 @@ class ConfigClient(Model):
             net_index=net_index,
             opcode=ConfigOpcode.MODEL_PUBLICATION_STATUS,
             params=dict(
-                status=StatusCode.SUCCESS,
                 element_address=element_address,
-                publish_address=publication_address,
-                TTL=TTL,
-                app_key_index=app_key_index,
-                credential_flag=PublishFriendshipCredentialsFlag.MASTER_SECURITY,
-                RFU=0,
-                publish_period=dict(
-                    step_resolution=publish_step_resolution,
-                    number_of_steps=publish_number_of_steps,
-                ),
-                retransmit=dict(count=retransmit_count, interval=retransmit_interval),
                 model=self._get_model_id(model),
             ),
         )
