@@ -1472,13 +1472,68 @@ class GenericLevelClient(Model):
         GenericLevelOpcode.DELTA_SET_UNACKNOWLEDGED,
         GenericLevelOpcode.MOVE_SET,
         GenericLevelOpcode.MOVE_SET_UNACKNOWLEDGED,
+        GenericLevelOpcode.LEVEL_STATUS,
     }
     PUBLISH = True
     SUBSCRIBE = True
 
+    _tid = 0
+
+    @property
+    def tid(self) -> int:
+        self._tid = (self._tid + 1) % 255
+        return self._tid
+
     def __init__(self, element: "Element"):
         super().__init__(element)
         self.__tid = itertools.cycle(range(255))
+
+    async def set_level(
+        self,
+        destination: int,
+        app_index: int,
+        level: int,
+        delay: float = 0.5,
+        send_interval: float = 0.07,
+        transition_time: float = 0,
+        retransmissions: int = 6,
+    ) -> int:
+
+        values = dict(delay=delay, send_interval=send_interval, tid=self.tid)
+
+        status = self.expect_app(
+            destination,
+            app_index=app_index,
+            destination=None,
+            opcode=GenericLevelOpcode.LEVEL_STATUS,
+            params=dict(),
+        )
+
+        values = dict(delay=delay, send_interval=send_interval, tid=next(self.__tid))
+
+        async def request():
+            ret = self.send_app(
+                destination,
+                app_index=app_index,
+                opcode=GenericLevelOpcode.LEVEL_SET,
+                params=dict(
+                    level=level,
+                    tid=values["tid"],
+                    transition_time=transition_time,
+                    delay=values["delay"],
+                ),
+            )
+            values["delay"] -= values["send_interval"]
+            values["delay"] = max(0, values["delay"])
+
+            return await ret
+
+        status = await self.query(
+            request, status, send_interval=values["send_interval"], timeout=1
+        )
+
+        return status["params"]["present_level"]
+
 
     async def set_level_unack(
         self,
@@ -1515,6 +1570,48 @@ class GenericLevelClient(Model):
             retransmissions=retransmissions,
             send_interval=values["send_interval"],
         )
+    async def get_level_status(
+        self,
+        nodes: Sequence[int],
+        app_index: int,
+        *,
+        send_interval: float = 0.1,
+        timeout: Optional[float] = None,
+    ) -> Dict[int, Optional[Any]]:
+        requests = {
+            node: partial(
+                self.send_app,
+                node,
+                app_index=app_index,
+                opcode=GenericLevelOpcode.LEVEL_GET,
+                params=dict(),
+            )
+            for node in nodes
+        }
+
+        statuses = {
+            node: self.expect_app(
+                node,
+                app_index=app_index,
+                destination=None,
+                opcode=GenericLevelOpcode.LEVEL_STATUS,
+                params=dict(),
+            )
+            for node in nodes
+        }
+
+        results = await self.bulk_query(
+            requests,
+            statuses,
+            send_interval=send_interval,
+            timeout=timeout or len(nodes) * 0.5,
+        )
+
+        return {
+            node: None if isinstance(result, Exception) else result["params"]
+            for node, result in results.items()
+        }
+
 
 
 class LightLightnessServer(Model):
