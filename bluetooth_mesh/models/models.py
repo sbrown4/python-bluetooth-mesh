@@ -1347,7 +1347,7 @@ class GenericOnOffClient(Model):
         statuses = {
             node: self.expect_app(
                 node,
-                app_index=0,
+                app_index=app_index,
                 destination=None,
                 opcode=GenericOnOffOpcode.ONOFF_STATUS,
                 params=dict(),
@@ -1441,7 +1441,7 @@ class SceneClient(Model):
         statuses = {
             node: self.expect_app(
                 node,
-                app_index=0,
+                app_index=app_index,
                 destination=None,
                 opcode=SceneOpcode.SCENE_STATUS,
                 params=dict(),
@@ -1741,7 +1741,7 @@ class LightLightnessClient(Model):
         statuses = {
             node: self.expect_app(
                 node,
-                app_index=0,
+                app_index=app_index,
                 destination=None,
                 opcode=LightLightnessOpcode.LIGHTNESS_STATUS,
                 params=dict(),
@@ -1787,7 +1787,7 @@ class LightLightnessClient(Model):
         statuses = {
             node: self.expect_app(
                 node,
-                app_index=0,
+                app_index=app_index,
                 destination=None,
                 opcode=LightLightnessOpcode.LIGHTNESS_STATUS,
                 params=dict(),
@@ -1867,7 +1867,7 @@ class LightCTLClient(Model):
         statuses = {
             node: self.expect_app(
                 node,
-                app_index=0,
+                app_index=app_index,
                 destination=None,
                 opcode=LightCTLOpcode.CTL_TEMPERATURE_STATUS,
                 params=dict(),
@@ -1912,7 +1912,7 @@ class LightCTLClient(Model):
         statuses = {
             node: self.expect_app(
                 node,
-                app_index=0,
+                app_index=app_index,
                 destination=None,
                 opcode=LightCTLOpcode.CTL_TEMPERATURE_STATUS,
                 params=dict(),
