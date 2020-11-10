@@ -1764,8 +1764,8 @@ class LightLightnessClient(Model):
     async def set_lightness(
         self,
         nodes: Sequence[int],
-        lightness: int,
         app_index: int,
+        lightness: int,
         *,
         delay: float = 0.5,
         send_interval: float = 0.1,
