@@ -194,9 +194,9 @@ def EmbeddedBitStruct(name, *args, reversed=False):
 
 
 class Opcode(Construct):
-    def __init__(self, type=int):
+    def __init__(self, _type=int):
         super().__init__()
-        self.type = type
+        self.type = _type
 
     def _parse(self, stream, context, path):
         try:
@@ -322,11 +322,11 @@ class DictAdapter(Adapter):
 
 
 class OpcodeMessage(Construct):
-    OPCODE = Opcode()
 
-    def __init__(self, opcodes):
+    def __init__(self, opcode_cls, opcodes):
         super().__init__()
         self.opcodes = {k: v.compile() for k, v in opcodes.items()}
+        self.OPCODE = Opcode(opcode_cls)
 
     def _parse(self, stream, context, path):
         opcode = self.OPCODE._parse(stream, context, path)

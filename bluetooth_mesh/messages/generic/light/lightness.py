@@ -109,7 +109,7 @@ LightLightnessSet = Select(
     LightLightnessSetMinimal
 )
 
-LightLightnessMessage = OpcodeMessage({
+LightLightnessMessage = OpcodeMessage(LightLightnessOpcode, {
     LightLightnessOpcode.LIGHTNESS_GET: LightLightnessGet,
     LightLightnessOpcode.LIGHTNESS_SET: LightLightnessSet,
     LightLightnessOpcode.LIGHTNESS_SET_UNACKNOWLEDGED: LightLightnessSet,
@@ -126,7 +126,7 @@ LightLightnessMessage = OpcodeMessage({
     LightLightnessOpcode.LIGHTNESS_RANGE_STATUS: LightLightnessRangeStatus,
 })
 
-LightLightnessSetupMessage = OpcodeMessage({
+LightLightnessSetupMessage = OpcodeMessage(LightLightnessSetupOpcode, {
     LightLightnessSetupOpcode.LIGHTNESS_DEFAULT_SET: LightLightnessDefault,
     LightLightnessSetupOpcode.LIGHTNESS_DEFAULT_SET_UNACKNOWLEDGED: LightLightnessDefault,
     LightLightnessSetupOpcode.LIGHTNESS_RANGE_SET: LightLightnessRange,

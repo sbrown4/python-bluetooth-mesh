@@ -246,7 +246,7 @@ TriggerDelta = Struct(
 #     "fast_cadence_high" / PropertyValue
 # )
 
-SensorMessage = OpcodeMessage({
+SensorMessage = OpcodeMessage(SensorOpcode, {
     SensorOpcode.SENSOR_DESCRIPTOR_GET: SensorGet,
     SensorOpcode.SENSOR_DESCRIPTOR_STATUS: SensorDescriptorStatus,
     SensorOpcode.SENSOR_GET: SensorGet,
@@ -258,7 +258,7 @@ SensorMessage = OpcodeMessage({
 })
 
 
-SensorSetupMessage = OpcodeMessage({
+SensorSetupMessage = OpcodeMessage(SensorSetupOpcode, {
     SensorSetupOpcode.SENSOR_CADENCE_GET: SensorGetOptional,
     # SensorSetupOpcode.SENSOR_CADENCE_SET: SensorCadence,
     # SensorSetupOpcode.SENSOR_CADENCE_SET_UNACKNOWLEDGED: SensorCadence,
