@@ -81,6 +81,7 @@ __all__ = [
     "GenericOnOffClient",
     "SceneClient",
     "GenericLevelClient",
+    "GenericLevelServer",
     "SensorClient",
     "LightLightnessClient",
     "LightLightnessServer",
@@ -1461,6 +1462,21 @@ class SceneClient(Model):
             for node, result in results.items()
         }
 
+
+class GenericLevelServer(Model):
+    MODEL_ID = (None, 0x1002)
+    OPCODES = {
+        GenericLevelOpcode.LEVEL_GET,
+        GenericLevelOpcode.LEVEL_SET,
+        GenericLevelOpcode.LEVEL_SET_UNACKNOWLEDGED,
+        GenericLevelOpcode.DELTA_SET,
+        GenericLevelOpcode.DELTA_SET_UNACKNOWLEDGED,
+        GenericLevelOpcode.MOVE_SET,
+        GenericLevelOpcode.MOVE_SET_UNACKNOWLEDGED,
+        GenericLevelOpcode.LEVEL_STATUS,
+    }
+    PUBLISH = True
+    SUBSCRIBE = True
 
 class GenericLevelClient(Model):
     MODEL_ID = (None, 0x1003)
