@@ -1373,16 +1373,8 @@ class GenericOnOffClient(Model):
 class SceneClient(Model):
     MODEL_ID = (None, 0x1205)
     OPCODES = {
-        SceneOpcode.SCENE_GET,
-        SceneOpcode.SCENE_RECALL,
-        SceneOpcode.SCENE_RECALL_UNACKNOWLEDGED,
         SceneOpcode.SCENE_STATUS,
-        SceneOpcode.SCENE_REGISTER_GET,
         SceneOpcode.SCENE_REGISTER_STATUS,
-        SceneOpcode.SCENE_STORE,
-        SceneOpcode.SCENE_STORE_UNACKNOWLEDGED,
-        SceneOpcode.SCENE_DELETE,
-        SceneOpcode.SCENE_DELETE_UNACKNOWLEDGED,
     }
     PUBLISH = True
     SUBSCRIBE = True
@@ -1474,7 +1466,6 @@ class GenericLevelServer(Model):
         GenericLevelOpcode.DELTA_SET_UNACKNOWLEDGED,
         GenericLevelOpcode.MOVE_SET,
         GenericLevelOpcode.MOVE_SET_UNACKNOWLEDGED,
-        GenericLevelOpcode.LEVEL_STATUS,
     }
     PUBLISH = True
     SUBSCRIBE = True
@@ -1482,13 +1473,6 @@ class GenericLevelServer(Model):
 class GenericLevelClient(Model):
     MODEL_ID = (None, 0x1003)
     OPCODES = {
-        GenericLevelOpcode.LEVEL_GET,
-        GenericLevelOpcode.LEVEL_SET,
-        GenericLevelOpcode.LEVEL_SET_UNACKNOWLEDGED,
-        GenericLevelOpcode.DELTA_SET,
-        GenericLevelOpcode.DELTA_SET_UNACKNOWLEDGED,
-        GenericLevelOpcode.MOVE_SET,
-        GenericLevelOpcode.MOVE_SET_UNACKNOWLEDGED,
         GenericLevelOpcode.LEVEL_STATUS,
     }
     PUBLISH = True
@@ -1637,7 +1621,6 @@ class LightLightnessServer(Model):
         LightLightnessOpcode.LIGHTNESS_GET,
         LightLightnessOpcode.LIGHTNESS_SET,
         LightLightnessOpcode.LIGHTNESS_SET_UNACKNOWLEDGED,
-        LightLightnessOpcode.LIGHTNESS_STATUS,
     }
     PUBLISH = True
     SUBSCRIBE = True
@@ -1828,9 +1811,7 @@ class LightLightnessClient(Model):
 class SensorClient(Model):
     MODEL_ID = (None, 0x1102)
     OPCODES = {
-        SensorOpcode.SENSOR_DESCRIPTOR_GET,
         SensorOpcode.SENSOR_DESCRIPTOR_STATUS,
-        SensorOpcode.SENSOR_GET,
         SensorOpcode.SENSOR_STATUS,
     }
     PUBLISH = True
@@ -1842,15 +1823,11 @@ class LightCTLServer(Model):
         LightCTLOpcode.CTL_GET,
         LightCTLOpcode.CTL_SET,
         LightCTLOpcode.CTL_SET_UNACKNOWLEDGED,
-        LightCTLOpcode.CTL_STATUS,
         LightCTLOpcode.CTL_TEMPERATURE_GET,
         LightCTLOpcode.CTL_TEMPERATURE_RANGE_GET,
-        LightCTLOpcode.CTL_TEMPERATURE_RANGE_STATUS,
         LightCTLOpcode.CTL_TEMPERATURE_SET,
         LightCTLOpcode.CTL_TEMPERATURE_SET_UNACKNOWLEDGED,
-        LightCTLOpcode.CTL_TEMPERATURE_STATUS,
         LightCTLOpcode.CTL_TEMPERATURE_DEFAULT_GET,
-        LightCTLOpcode.CTL_TEMPERATURE_DEFAULT_STATUS,
     }
     PUBLISH = True
     SUBSCRIBE = True
@@ -1859,17 +1836,9 @@ class LightCTLServer(Model):
 class LightCTLClient(Model):
     MODEL_ID = (None, 0x1305)
     OPCODES = {
-        LightCTLOpcode.CTL_GET,
-        LightCTLOpcode.CTL_SET,
-        LightCTLOpcode.CTL_SET_UNACKNOWLEDGED,
         LightCTLOpcode.CTL_STATUS,
-        LightCTLOpcode.CTL_TEMPERATURE_GET,
-        LightCTLOpcode.CTL_TEMPERATURE_RANGE_GET,
         LightCTLOpcode.CTL_TEMPERATURE_RANGE_STATUS,
-        LightCTLOpcode.CTL_TEMPERATURE_SET,
-        LightCTLOpcode.CTL_TEMPERATURE_SET_UNACKNOWLEDGED,
         LightCTLOpcode.CTL_TEMPERATURE_STATUS,
-        LightCTLOpcode.CTL_TEMPERATURE_DEFAULT_GET,
         LightCTLOpcode.CTL_TEMPERATURE_DEFAULT_STATUS,
     }
     PUBLISH = True
