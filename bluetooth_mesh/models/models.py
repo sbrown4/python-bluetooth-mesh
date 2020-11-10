@@ -86,6 +86,7 @@ __all__ = [
     "LightLightnessClient",
     "LightLightnessServer",
     "LightCTLClient",
+    "LightCTLServer",
     "GatewayConfigServer",
     "GatewayConfigClient",
     "LightExtendedControllerSetupClient",
@@ -1835,6 +1836,25 @@ class SensorClient(Model):
     PUBLISH = True
     SUBSCRIBE = True
 
+class LightCTLServer(Model):
+    MODEL_ID = (None, 0x1303)
+    OPCODES = {
+        LightCTLOpcode.CTL_GET,
+        LightCTLOpcode.CTL_SET,
+        LightCTLOpcode.CTL_SET_UNACKNOWLEDGED,
+        LightCTLOpcode.CTL_STATUS,
+        LightCTLOpcode.CTL_TEMPERATURE_GET,
+        LightCTLOpcode.CTL_TEMPERATURE_RANGE_GET,
+        LightCTLOpcode.CTL_TEMPERATURE_RANGE_STATUS,
+        LightCTLOpcode.CTL_TEMPERATURE_SET,
+        LightCTLOpcode.CTL_TEMPERATURE_SET_UNACKNOWLEDGED,
+        LightCTLOpcode.CTL_TEMPERATURE_STATUS,
+        LightCTLOpcode.CTL_TEMPERATURE_DEFAULT_GET,
+        LightCTLOpcode.CTL_TEMPERATURE_DEFAULT_STATUS,
+    }
+    PUBLISH = True
+    SUBSCRIBE = True
+
 
 class LightCTLClient(Model):
     MODEL_ID = (None, 0x1305)
@@ -1874,7 +1894,7 @@ class LightCTLClient(Model):
                 self.send_app,
                 node,
                 app_index=app_index,
-                opcode=LightCTLOpcode.CTL_TEMPERATURE_GET,
+                opcode=LightCTLOpcode.CTL_GET,
                 params=dict(),
             )
             for node in nodes
@@ -1885,7 +1905,7 @@ class LightCTLClient(Model):
                 node,
                 app_index=app_index,
                 destination=None,
-                opcode=LightCTLOpcode.CTL_TEMPERATURE_STATUS,
+                opcode=LightCTLOpcode.CTL_STATUS,
                 params=dict(),
             )
             for node in nodes
@@ -1907,8 +1927,10 @@ class LightCTLClient(Model):
         self,
         nodes: Sequence[int],
         app_index: int,
-        *,
+        ctl_lightness: int,
         ctl_temperature: int,
+        *,
+        ctl_delta_uv: int = 0,
         send_interval: float = 0.1,
         timeout: Optional[float] = None,
     ) -> Dict[int, Optional[Any]]:
@@ -1917,9 +1939,9 @@ class LightCTLClient(Model):
                 self.send_app,
                 node,
                 app_index=app_index,
-                opcode=LightCTLOpcode.CTL_TEMPERATURE_SET,
+                opcode=LightCTLOpcode.CTL_SET,
                 params=dict(
-                    ctl_temperature=ctl_temperature, ctl_delta_uv=0, tid=self.tid
+                    ctl_lightness=ctl_lightness, ctl_temperature=ctl_temperature, ctl_delta_uv=ctl_delta_uv, tid=self.tid
                 ),
             )
             for node in nodes
@@ -1930,7 +1952,7 @@ class LightCTLClient(Model):
                 node,
                 app_index=app_index,
                 destination=None,
-                opcode=LightCTLOpcode.CTL_TEMPERATURE_STATUS,
+                opcode=LightCTLOpcode.CTL_STATUS,
                 params=dict(),
             )
             for node in nodes
